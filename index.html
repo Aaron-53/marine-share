@@ -22,11 +22,12 @@
         urlParams.get("code") ||
         urlParams.get("r");
       const app = urlParams.get("src");
+      console.log(app);
       // Detect device and redirect
       const userAgent = navigator.userAgent.toLowerCase();
       let redirectUrl;
       let APP_URLS;
-      if (app.toLowerCase() == "marine") {
+      if (app != null && app.toLowerCase() == "marine") {
         APP_URLS = MARINE_URLS;
       } else {
         window.location.href = "https://lascade.com/";

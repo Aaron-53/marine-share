@@ -13,5 +13,15 @@ const userAgent = navigator.userAgent.toLowerCase();
 
 const redirectUrl = /iphone|ipad|ipod/.test(userAgent) ? MARINE_URLS.ios : MARINE_URLS.android;
 
+try {
+    analytics().logEvent('web_share_page_view', {
+        isIos: /iphone|ipad|ipod/.test(userAgent),
+        referralCode
+    });
+}
+catch (e) {
+    console.error("Firebase Analytics error:", e);
+}
+
 // Redirect immediately
 window.location.href = `${redirectUrl}&referral=${encodeURIComponent(referralCode)}`;

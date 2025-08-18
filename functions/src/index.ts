@@ -7,11 +7,11 @@
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
 import {https} from "firebase-functions";
-import {firestore, initializeApp, messaging} from "firebase-admin";
+import * as admin from "firebase-admin";
 
-const app = initializeApp();
+const app = admin.initializeApp();
 
-const referralsCollection = firestore(app).collection("user_referrals");
+const referralsCollection = admin.firestore(app).collection("user_referrals");
 
 export const sendReferralNotification = https.onCall(
   async (request) => {
@@ -43,7 +43,7 @@ export const sendReferralNotification = https.onCall(
 
     try {
       // Send the notification
-      await messaging(app).send(payload);
+      await admin.messaging(app).send(payload);
       console.log("Successfully sent message to:", referrerId);
     } catch (error) {
       console.error("Error sending message:", error);

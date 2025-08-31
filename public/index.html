@@ -1,83 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Redirecting...</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Marine Radar</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon-rounded.png" />
 
     <!-- update the version number as needed -->
     <script defer src="/__/firebase/11.10.0/firebase-app-compat.js"></script>
     <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/11.10.0/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/11.10.0/firebase-performance-compat.js"></script>
+    <script
+      defer
+      src="/__/firebase/11.10.0/firebase-analytics-compat.js"
+    ></script>
+    <script
+      defer
+      src="/__/firebase/11.10.0/firebase-performance-compat.js"
+    ></script>
 
     <script defer src="/__/firebase/init.js"></script>
 
     <script defer src="js/index.js"></script>
 
     <style media="screen">
+      :root {
+        --primary-bg-light: #fff;
+        --primary-bg-dark: #131e2c;
+        --text-color-light: #222;
+        --text-color-dark: #fff;
+      }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        min-height: 100vh;
+      }
+
+      body {
+        min-height: 100vh;
+        min-width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--primary-bg-light);
+        color: var(--text-color-light);
+        transition: background 0.3s, color 0.3s;
+        font-family: "Segoe UI", "Roboto", Arial, sans-serif;
+        overflow: hidden;
+        position: relative;
+      }
+
+      @media (prefers-color-scheme: dark) {
         body {
-            background: #ECEFF1;
-            color: rgba(0, 0, 0, 0.87);
-            font-family: Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+          background: var(--primary-bg-dark);
+          color: var(--text-color-dark);
         }
+      }
 
-        #message {
-            background: white;
-            max-width: 360px;
-            margin: 100px auto 16px;
-            padding: 32px 24px;
-            border-radius: 3px;
+      .splash-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100vw;
+        height: 100vh;
+        z-index: 2;
+        position: relative;
+      }
+
+      .splash-logo {
+        width: 150px;
+        height: 150px;
+        border-radius: 32px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        background: linear-gradient(135deg, #039be5, #0077b6);
+        object-fit: cover;
+        opacity: 0;
+        transform: scale(2);
+        animation: logoIn 1s cubic-bezier(0.4, 2, 0.6, 1) forwards,
+          breathe 3s ease-in-out infinite 1.5s;
+      }
+
+      @keyframes logoIn {
+        to {
+          opacity: 1;
+          transform: scale(1);
         }
+      }
 
-        #message h1 {
-            color: #ffa100;
-            font-weight: bold;
-            font-size: 16px;
-            margin: 0 0 8px;
+      @keyframes breathe {
+        0%,
+        100% {
+          transform: scale(1);
         }
-
-        #message p {
-            line-height: 140%;
-            margin: 16px 0 24px;
-            font-size: 14px;
+        50% {
+          transform: scale(1.05);
         }
+      }
 
-        #message a {
-            display: block;
-            text-align: center;
-            background: #039be5;
-            text-transform: uppercase;
-            text-decoration: none;
-            color: white;
-            padding: 16px;
-            border-radius: 4px;
+      .splash-title {
+        margin-top: 24px;
+        font-size: 2.2rem;
+        font-weight: bold;
+        letter-spacing: 1px;
+        opacity: 0;
+        animation: fadeInText 1s 0.3s cubic-bezier(0.4, 2, 0.6, 1) forwards;
+      }
+
+      @keyframes fadeInText {
+        to {
+          opacity: 1;
         }
+      }
 
-        #message, #message a {
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-        }
+      .splash-subtitle {
+        margin-top: 8px;
+        font-size: 1rem;
+        opacity: 0;
+        animation: fadeInText 1s 0.6s cubic-bezier(0.4, 2, 0.6, 1) forwards;
+      }
 
-        @media (max-width: 600px) {
-            body, #message {
-                margin-top: 0;
-                background: white;
-                box-shadow: none;
-            }
-
-            body {
-                border-top: 16px solid #ffa100;
-            }
-        }
+      /* Optional: subtle map background effect */
+      .map-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 0;
+        opacity: 0.08;
+        background: linear-gradient(45deg, #039be5, #0077b6);
+        pointer-events: none;
+        filter: blur(2px);
+      }
     </style>
-</head>
-<body>
-<div id="message">
-    <h1>Marine Radar</h1>
-    <p>Please wait you will be redirected to the App shortly</p>
-</div>
-
-</body>
+  </head>
+  <body>
+    <div class="map-bg"></div>
+    <div class="splash-container">
+      <img
+        src="assets/appicon.svg"
+        alt="Marine Radar App Icon"
+        class="splash-logo"
+        id="splashLogo"
+      />
+      <div class="splash-title">Marine Radar</div>
+    </div>
+  </body>
 </html>
